@@ -138,7 +138,7 @@ async def create_movie(
         revenue=float(movie_data.revenue),
         country=country,
         genres=genres,
-        actors = actors,
+        actors=actors,
         languages=languages
     )
 

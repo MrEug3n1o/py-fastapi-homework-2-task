@@ -110,7 +110,7 @@ class MovieUpdateSchema(BaseModel):
     score: Optional[float] = Field(None, ge=0, le=100, description="Movie score (0-100)")
     overview: Optional[str] = Field(None, max_length=10000, description="Movie overview")
     status: Optional[MovieStatusEnum] = Field(None, description="Movie status")
-    budget: Optional[Decimal] = Field(None, ge=0, description="Movie budget")
+    budget: Optional[float] = Field(None, ge=0, description="Movie budget")
     revenue: Optional[float] = Field(None, ge=0, description="Movie revenue")
 
     @field_validator("date")

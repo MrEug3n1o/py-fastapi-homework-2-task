@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, Query, status, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_db
@@ -22,6 +22,7 @@ movie_router = APIRouter(prefix="/movies", tags=["Movies"])
 
 @movie_router.get("/", response_model=MovieListResponseSchema)
 async def list_movies(
+    request: Request,
     page: int = Query(1, ge=1),
     per_page: int = Query(10, ge=1, le=20),
     db: AsyncSession = Depends(get_db),
@@ -29,10 +30,10 @@ async def list_movies(
     data = await get_movies(db, page, per_page)
 
     prev_page = (
-        f"/theater/movies/?page={page - 1}&per_page={per_page}" if page > 1 else None
+        f"{request.url.include_query_params(page=(page - 1), per_page=per_page)}"[18:] if page > 1 else None
     )
     next_page = (
-        f"/theater/movies/?page={page + 1}&per_page={per_page}"
+        f"{request.url.include_query_params(page=(page + 1), per_page=per_page)}"[18:]
         if page < data["total_pages"]
         else None
     )

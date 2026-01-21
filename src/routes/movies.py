@@ -17,10 +17,10 @@ from src.crud.crud import (
     delete_movie,
 )
 
-router = APIRouter(prefix="/movies", tags=["Movies"])
+movie_router = APIRouter(prefix="/movies", tags=["Movies"])
 
 
-@router.get("/", response_model=MovieListResponseSchema)
+@movie_router.get("/", response_model=MovieListResponseSchema)
 async def list_movies(
     page: int = Query(1, ge=1),
     per_page: int = Query(10, ge=1, le=20),
@@ -46,7 +46,7 @@ async def list_movies(
     )
 
 
-@router.get("/{movie_id}/", response_model=MovieDetailResponseSchema)
+@movie_router.get("/{movie_id}/", response_model=MovieDetailResponseSchema)
 async def get_movie(
     movie_id: int,
     db: AsyncSession = Depends(get_db),
@@ -54,7 +54,7 @@ async def get_movie(
     return await get_movie_by_id(db, movie_id)
 
 
-@router.post(
+@movie_router.post(
     "/",
     response_model=MovieDetailResponseSchema,
     status_code=status.HTTP_201_CREATED,
@@ -66,7 +66,7 @@ async def create_movie_route(
     return await create_movie(db, movie_data)
 
 
-@router.patch("/{movie_id}/", response_model=MessageSchema)
+@movie_router.patch("/{movie_id}/", response_model=MessageSchema)
 async def update_movie_route(
     movie_id: int,
     movie_data: MovieUpdateSchema,
@@ -76,7 +76,7 @@ async def update_movie_route(
     return MessageSchema(detail="Movie updated successfully.")
 
 
-@router.delete("/{movie_id}/", status_code=status.HTTP_204_NO_CONTENT)
+@movie_router.delete("/{movie_id}/", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_movie_route(
     movie_id: int,
     db: AsyncSession = Depends(get_db),

@@ -180,7 +180,7 @@ async def update_movie(
         await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid data provided.",
+            detail="Invalid input data.",
         )
 
 

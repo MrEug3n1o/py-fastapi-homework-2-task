@@ -70,31 +70,9 @@ class MovieDetailResponseSchema(BaseModel):
     revenue: float
 
     country: CountrySchema
-    genres: List[GenreSchema] = None
-    actors: List[ActorSchema] = None
-    languages: List[LanguageSchema] = None
-
-    # @model_serializer
-    # def serialize_model(self):
-    #
-    #     date_value = self.date
-    #     if isinstance(date_value, DateType):
-    #         date_value = date_value.isoformat()
-    #
-    #     return {
-    #         'id': self.id,
-    #         'name': self.name,
-    #         'date': date_value,
-    #         'score': self.score,
-    #         'overview': self.overview,
-    #         'status': self.status,
-    #         'budget': self.budget,
-    #         'revenue': self.revenue,
-    #         'country': self.country,
-    #         'genres': self.genres,
-    #         'actors': self.actors,
-    #         'languages': self.languages
-    #     }
+    genres: List[GenreSchema] = Field(default_factory=list)
+    actors: List[ActorSchema] = Field(default_factory=list)
+    languages: List[LanguageSchema] = Field(default_factory=list)
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -133,7 +111,7 @@ class MovieUpdateSchema(BaseModel):
     overview: Optional[str] = Field(None, max_length=10000, description="Movie overview")
     status: Optional[MovieStatusEnum] = Field(None, description="Movie status")
     budget: Optional[Decimal] = Field(None, ge=0, description="Movie budget")
-    revenue: Optional[Decimal] = Field(None, ge=0, description="Movie revenue")
+    revenue: Optional[float] = Field(None, ge=0, description="Movie revenue")
 
     @field_validator("date")
     @classmethod

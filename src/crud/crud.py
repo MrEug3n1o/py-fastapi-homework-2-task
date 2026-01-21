@@ -13,7 +13,7 @@ from src.database.models import (
     ActorModel,
     LanguageModel,
 )
-from src.schemas.movies import MovieCreateSchema, MovieUpdateSchema
+from src.schemas.movies import MovieCreateSchema, MovieUpdateSchema, MovieDetailResponseSchema
 
 
 async def get_movies(
@@ -138,22 +138,22 @@ async def create_movie(
         revenue=float(movie_data.revenue),
         country=country,
         genres=genres,
-        actors=actors,
-        languages=languages,
+        actors = actors,
+        languages=languages
     )
 
     db.add(movie)
 
     try:
         await db.commit()
-        await db.refresh(movie)
+        await db.refresh(movie, attribute_names=["country", "genres", "actors", "languages"])
         return movie
 
     except IntegrityError:
         await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="Movie already exists.",
+            detail=f"A movie with the name '{movie_data.name}' and release date '{movie_data.date}' already exists.",
         )
 
 

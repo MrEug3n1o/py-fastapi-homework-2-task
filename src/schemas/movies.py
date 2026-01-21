@@ -74,27 +74,27 @@ class MovieDetailResponseSchema(BaseModel):
     actors: List[ActorSchema] = None
     languages: List[LanguageSchema] = None
 
-    @model_serializer
-    def serialize_model(self):
-
-        date_value = self.date
-        if isinstance(date_value, DateType):
-            date_value = date_value.isoformat()
-
-        return {
-            'id': self.id,
-            'name': self.name,
-            'date': date_value,
-            'score': self.score,
-            'overview': self.overview,
-            'status': self.status,
-            'budget': self.budget,
-            'revenue': self.revenue,
-            'country': self.country,
-            'genres': self.genres,
-            'actors': self.actors,
-            'languages': self.languages
-        }
+    # @model_serializer
+    # def serialize_model(self):
+    #
+    #     date_value = self.date
+    #     if isinstance(date_value, DateType):
+    #         date_value = date_value.isoformat()
+    #
+    #     return {
+    #         'id': self.id,
+    #         'name': self.name,
+    #         'date': date_value,
+    #         'score': self.score,
+    #         'overview': self.overview,
+    #         'status': self.status,
+    #         'budget': self.budget,
+    #         'revenue': self.revenue,
+    #         'country': self.country,
+    #         'genres': self.genres,
+    #         'actors': self.actors,
+    #         'languages': self.languages
+    #     }
 
     model_config = ConfigDict(from_attributes=True)
 

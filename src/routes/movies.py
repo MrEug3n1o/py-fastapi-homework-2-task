@@ -29,10 +29,10 @@ async def list_movies(
     data = await get_movies(db, page, per_page)
 
     prev_page = (
-        f"/movies?page={page - 1}&per_page={per_page}" if page > 1 else None
+        f"/theater/movies/?page={page - 1}&per_page={per_page}" if page > 1 else None
     )
     next_page = (
-        f"/movies?page={page + 1}&per_page={per_page}"
+        f"/theater/movies/?page={page + 1}&per_page={per_page}"
         if page < data["total_pages"]
         else None
     )
